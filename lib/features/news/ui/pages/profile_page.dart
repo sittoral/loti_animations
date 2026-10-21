@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../../core/service/secure_storage_service.dart';
 import '../../../auth/ui/pages/login_page.dart';
+import 'animations_page.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -66,6 +67,15 @@ class ProfilePage extends StatelessWidget {
                 const SizedBox(height: 32),
                 const _PrefRow(title: 'ACCOUNT'),
                 const _PrefRow(title: 'SETTINGS'),
+                _PrefRow(
+                  title: 'ANIMATIONS',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const AnimationsPage()),
+                    );
+                  },
+                ),
                 const _PrefRow(title: 'ORDERS PREFERENCES'),
                 _PrefRow(
                   title: 'LOGOUT',

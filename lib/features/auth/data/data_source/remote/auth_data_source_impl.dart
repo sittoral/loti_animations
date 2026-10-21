@@ -22,7 +22,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         baseUrl: 'https://geeks.free.beeceptor.com',
         // 4xx не бросают исключение, их обработаем ниже как false
         validateStatus: (status) => status != null && status < 500,
-      ),
+      ),  
     );
 
     dio.interceptors.add(

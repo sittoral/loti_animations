@@ -45,6 +45,9 @@ dependencies:
   talker: ^5.1.20
   talker_dio_logger: ^5.1.20
   shared_preferences: ^2.5.6
+  firebase_core: ^3.15.2
+  firebase_messaging: ^15.2.10
+  flutter_local_notifications: ^17.0.0
 
 dev_dependencies:
   flutter_test:

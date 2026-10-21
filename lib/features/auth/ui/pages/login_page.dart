@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import '../../../../core/di/service_locator.dart';
 import '../../../news/ui/pages/main_page.dart';
 import '../cubit/auth_cubit.dart';
@@ -29,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
       hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade400),
       suffixIcon: suffix,
       filled: true,
-      // в фокусе поле белое с чёрной рамкой, иначе серое
       fillColor: WidgetStateColor.resolveWith(
         (states) => states.contains(WidgetState.focused)
             ? Colors.white
@@ -66,8 +66,30 @@ class _LoginPageState extends State<LoginPage> {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 480),
               child: BlocConsumer<AuthCubit, AuthState>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is AuthSuccess) {
+                    // Показываем локальное уведомление при успешном входе
+                    try {
+                      final FlutterLocalNotificationsPlugin localNotif = FlutterLocalNotificationsPlugin();
+                      await localNotif.show(
+                        0,
+                        'Успешный вход! 🎉',
+                        'Добро пожаловать в приложение!',
+                        const NotificationDetails(
+                          android: AndroidNotificationDetails(
+                            'high_importance_channel',
+                            'High Importance Notifications',
+                            importance: Importance.max,
+                            priority: Priority.high,
+                            icon: '@mipmap/ic_launcher',
+                          ),
+                        ),
+                      );
+                    } catch (e) {
+                      print('Ошибка показа уведомления: $e');
+                    }
+
+                    if (!context.mounted) return;
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (_) => const MainPage()),
